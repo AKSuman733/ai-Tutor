@@ -26,7 +26,7 @@ function App() {
     setInput(speechText);
 
     // send to backend
-    const res = await axios.post("http://localhost:5000/correct", {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URI}/correct`, {
       sentence: speechText,
     });
 
@@ -40,8 +40,8 @@ function App() {
     setLoading(false);
     handleSpeak(fullResponse);
     
-  };
-};
+  }
+}
   return (
     <div style={{ padding: "40px" }}>
       <h1>AI English Tutor</h1>
