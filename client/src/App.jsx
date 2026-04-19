@@ -1,83 +1,26 @@
-import { useState } from "react";
-import axios from "axios";
+import { Routes, Route, Navigate } from "react-router-dom";
+import SignIn from "../src/components/SignIn";
+import SignUp from "../src/components/SignUp";
+import Dashboard from "../src/components/Dashboard";
+import ProtectedRoute from "../src/components/ProtectedRoute";
 
 function App() {
-  const [input, setInput] = useState("");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleSpeak = (text) => {
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = "en-US";
-    speechSynthesis.speak(speech);
-  };
-  
-  const startListening = () => {
-  const recognition = new window.webkitSpeechRecognition();
-
-  recognition.lang = "en-US";
-  recognition.start();
-
-  recognition.onresult = async (event) => {
-    setLoading(true);
-    const speechText = event.results[0][0].transcript;
-
-    console.log("User said:", speechText);
-    setInput(speechText);
-
-    // send to backend
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URI}/correct`, {
-      sentence: speechText,
-    });
-
-    const fullResponse = `
-      Correct sentence: ${res.data.corrected}.
-      Explanation: ${res.data.explanation}.
-      My Response: ${res.data.myResponce}.
-      Follow: ${res.data.followUpQuestion}.
-    `;
-    setResult(fullResponse);
-    setLoading(false);
-    handleSpeak(fullResponse);
-    
-  }
-}
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>AI English Tutor</h1>
+    <Routes>
+      <Route path="/" element={<Navigate to="/signin" />} />
 
-      
-      <button onClick={startListening}>🎤 Speak</button>
-      <div style={{ marginTop: "20px" }}>
-      {loading && <p>AI is thinking...</p>}
-  {input && (
-    <div style={{ textAlign: "right", marginBottom: "15px" }}>
-      <span style={{
-        background: "#DCF8C6",
-        padding: "10px",
-        borderRadius: "10px"
-      }}>
-        {input}
-      </span>
-    </div>
-  )}
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
 
-  
-  <div style={{ display: "flex", gap: "10px" }}>
-  {result && (
-    <span style={{
-      background: "#EEE",
-      padding: "10px",
-      borderRadius: "10px"
-    }}>
-      {result}
-    </span>
-  )}
-</div>
-
-      </div>
-      
-    </div>
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 
