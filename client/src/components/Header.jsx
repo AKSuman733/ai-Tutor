@@ -1,9 +1,16 @@
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navLinks = ["Features", "How it works", "Pricing", "Blog"];
+
+  const handleLogOut= ()=>{
+    localStorage.removeItem('token')
+    navigate("/signin");
+  }
 
   return (
     <>
@@ -127,15 +134,15 @@ export default function Header() {
           <ul className="sp-nav-links">
             {navLinks.map((link) => (
               <li key={link}>
-                <a className="sp-nav-link">{link}</a>
+                <span className="sp-nav-link">{link}</span>
               </li>
             ))}
           </ul>
         </nav>
 
         <div className="sp-header-right">
-          <button className="sp-btn-ghost">Log in</button>
-          <button className="sp-btn-primary">Get started free</button>
+          <button className="sp-btn-ghost" onClick={handleLogOut}>Log out</button>
+          <button className="sp-btn-primary">Your Free Trial Started</button>
           <button
             className="sp-mobile-toggle"
             onClick={() => setMenuOpen((v) => !v)}
@@ -161,7 +168,7 @@ export default function Header() {
       {menuOpen && (
         <div className="sp-mobile-menu">
           {navLinks.map((link) => (
-            <a key={link} className="sp-mobile-link">{link}</a>
+            <span key={link} className="sp-mobile-link">{link}</span>
           ))}
           <button className="sp-btn-primary" style={{ marginTop: 8 }}>
             Get started free

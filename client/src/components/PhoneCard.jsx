@@ -15,14 +15,16 @@ export default function PhoneCard({
   const [speaker, setSpeaker] = useState(true);
   const [messages, setMessages] = useState(initialMessages);
   const [callDuration, setCallDuration] = useState(0);
-  const bottomRef = useRef(null);
   const timerRef = useRef(null);
-  
-  useHandleCalling(callActive, setMessages);
+  const messagesContainerRef = useRef(null);
+
+  useHandleCalling(callActive, setCallActive, setMessages);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  if (messagesContainerRef.current) {
+    messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+  }
+}, [messages]);
 
   useEffect(() => {
     if (callActive) {
@@ -42,6 +44,7 @@ export default function PhoneCard({
 
   const handleStart = () => {
     setCallActive(true);
+
   };
 
   const handleEnd = () => {
@@ -267,7 +270,7 @@ export default function PhoneCard({
           </span>
         </div>
 
-        <div className="pc-messages">
+        <div className="pc-messages" ref={messagesContainerRef}>
           {messages.map((msg, i) =>
             msg.role === "user" ? (
               <div className="pc-msg-user" key={i}>
@@ -300,7 +303,6 @@ export default function PhoneCard({
               </div>
             </div>
           )}
-          <div ref={bottomRef} />
         </div>
 
         <div className="pc-controls">

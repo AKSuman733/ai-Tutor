@@ -3,7 +3,7 @@ export const startListening = (onResult, onTimeout) => {
   const recognition = new window.webkitSpeechRecognition();
 
   recognition.lang = "en-US";
-  recognition.continuous = false; // important
+  //recognition.continuous = false; // important
   recognition.interimResults = false;
 
   let silenceTimer;
@@ -20,10 +20,15 @@ export const startListening = (onResult, onTimeout) => {
 
   // 🎤 When user speaks
   recognition.onresult = (event) => {
-    clearTimeout(silenceTimer); // ✅ user spoke → cancel timeout
-
+    clearTimeout(silenceTimer); 
+    console.log("✅ user spoke → cancel timeout");
     const speechText = event.results[0][0].transcript;
     onResult(speechText);
+  };
+
+  recognition.onend = () => {
+    clearTimeout(silenceTimer); // Ensure the timer dies when the mic closes
+    console.log("🎤 user sentence saved");
   };
 
   return recognition;

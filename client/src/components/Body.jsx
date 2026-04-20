@@ -363,6 +363,31 @@ export default function Body() {
             <PhoneCard />
           </div>
         </section>
+        
+        {/* ── How it works ── */}
+        <section className="sp-section" style={{ background: "#FAFAFA" }}>
+          <div className="sp-section-label">How it works</div>
+          <div className="sp-section-title">Up and talking in 10 seconds</div>
+          <div className="sp-section-sub">
+            No setup. No downloads. Just open Speakly and start your first call.
+          </div>
+          <div className="sp-steps">
+            {[
+              { n: "1", title: "Create your free account", desc: "Sign up with your email. No credit card, no trial period tricks." },
+              { n: "2", title: "Choose a topic or go free", desc: "Pick a conversation theme or just start talking. Aria figures out the rest." },
+              { n: "3", title: "Make a Call to your AI friend", desc: "After making a call, Aria is waiting for your greetings."},
+              { n: "4", title: "Talk, get feedback, improve", desc: "After each call you get a session summary with tips to sharpen your English." },
+            ].map((s) => (
+              <div className="sp-step" key={s.n}>
+                <div className="sp-step-num">{s.n}</div>
+                <div className="sp-step-title">{s.title}</div>
+                <div className="sp-step-desc">{s.desc}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="sp-divider" />
 
         {/* ── Features ── */}
         <section className="sp-section" style={{ background: "#fff" }}>
@@ -384,29 +409,6 @@ export default function Body() {
 
         <div className="sp-divider" />
 
-        {/* ── How it works ── */}
-        <section className="sp-section" style={{ background: "#FAFAFA" }}>
-          <div className="sp-section-label">How it works</div>
-          <div className="sp-section-title">Up and talking in 60 seconds</div>
-          <div className="sp-section-sub">
-            No setup. No downloads. Just open Speakly and start your first call.
-          </div>
-          <div className="sp-steps">
-            {[
-              { n: "1", title: "Create your free account", desc: "Sign up with your email. No credit card, no trial period tricks." },
-              { n: "2", title: "Choose a topic or go free", desc: "Pick a conversation theme or just start talking. Aria figures out the rest." },
-              { n: "3", title: "Talk, get feedback, improve", desc: "After each call you get a session summary with tips to sharpen your English." },
-            ].map((s) => (
-              <div className="sp-step" key={s.n}>
-                <div className="sp-step-num">{s.n}</div>
-                <div className="sp-step-title">{s.title}</div>
-                <div className="sp-step-desc">{s.desc}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <div className="sp-divider" />
 
         {/* ── Pricing ── */}
         <section className="sp-section" style={{ background: "#fff" }}>

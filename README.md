@@ -5,7 +5,7 @@ A full-stack English learning tutor app with a React/Vite frontend and an Expres
 ## Project structure
 
 - `client/` - React frontend built with Vite
-- `server/` - Express backend API using OpenAI and Groq SDK
+- `server/` - Express backend with auth, websocket, OpenAI, and MongoDB support
 
 ## Getting started
 
@@ -41,18 +41,26 @@ npm run dev
 
 Then open the local Vite URL shown in the terminal (usually `http://localhost:5173`).
 
+## Backend endpoints
+
+- `POST /api/auth/register` - register a new user
+- `POST /api/auth/login` - login existing user
+- WebSocket server at `ws://localhost:5001` for real-time sentence correction and conversation flow
+
 ## Environment
 
-The server may use environment variables for API keys. Create a `.env` file in `server/` if needed.
+Create a `.env` file in `server/` with the values your app requires.
 
 Example:
 
 ```env
-OPENAI_API_KEY=your_openai_api_key
+GROQ_API_KEY=your_GROQ_api_key
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=......
 ```
 
 ## Notes
 
 - `node_modules/` is ignored by Git.
-- The frontend is a Vite app using React.
-- The backend is an Express server with CORS and OpenAI integration.
+- The frontend uses a WebSocket hook to send sentences and receive responses from the backend.
+- The backend uses Express and MongoDB for auth plus a websocket server for live communication.

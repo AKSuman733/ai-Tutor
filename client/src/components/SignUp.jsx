@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function SignUp({ onNavigateSignIn, onNavigateDashboard }) {
+export default function SignUp() {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
-    name: "", email: "", password: "", goal: "",
+    name: "",email: "",password: "",goal: "",
   });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,17 +66,19 @@ export default function SignUp({ onNavigateSignIn, onNavigateDashboard }) {
   };
 
   const handleStep3 = async () => {
+    const email = form.email;
+    const name = form.name;
+    const password = form.password;
     if (!form.goal) {
       setError("Please select your goal.");
       return;
     }
     setError("");
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1400));
     const res = await axios.post("http://localhost:5000/api/auth/signup", {
-       name,
-       email,
-       password,
+      email,
+      name,
+      password
     });
     setLoading(false);
     localStorage.setItem("token", res.data.token);
@@ -522,7 +525,7 @@ export default function SignUp({ onNavigateSignIn, onNavigateDashboard }) {
             </div>
           </div>
 
-          <div className="su-left-footer">© 2025 Speakly. All rights reserved.</div>
+          <div className="su-left-footer">© 2026 Speakly. All rights reserved.</div>
         </div>
 
         {/* Right form panel */}

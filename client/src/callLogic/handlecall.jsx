@@ -1,60 +1,67 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef} from "react";
 import { useWebSocket } from "../hooks/wshook.jsx";
 import { startListening } from "../components/VoiceInput.jsx";
 import { speakText } from "../utils/speech.jsx";
 
-export default function useHandleCalling(callState, setMessages) {
+export default function useHandleCalling(callActive, setCallActive, setMessages) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isTalking, setIsTalking] = useState(false);
-
+  
+  const recognitionRef = useRef(null);
   const { sendMessage, response } = useWebSocket();
 
   const startConversation = () => {
-    startListening(async (speechText) => {
+    if (recognitionRef.current) recognitionRef.current.stop(); // Stop any existing instance
+    recognitionRef.current = startListening(async (speechText) => {
       setInput(speechText);
       setLoading(true);
-
-      sendMessage(speechText); // WebSocket send
       setMessages((prev) => [...prev, { role: "user", text: speechText }]);
+      sendMessage(speechText); // send to WebSocket
+  
     }, () => {
       console.log("Stopping due to silence");
-      setIsTalking(false);
+      setCallActive(false);
     });
   };
 
   useEffect(() => {
-    if (!response) return;
-
-    const fullResponse = `
-    Corrected:${response.corrected},
-    Explain:${response.explanation},
-    Response:${response.myResponce},
-    FollowUp:${response.followUpQuestion}
-    `;
-
-    setMessages((prev) => [...prev, { role: "ai", text: fullResponse }]);
-    setLoading(false);
-
-    speakText(fullResponse, () => {
-      if (isTalking) {
-        startConversation();
-      }
-    });
-  }, [response, isTalking, setMessages]);
+    if (!callActive && recognitionRef.current) {
+      console.log("🛑 Stopping recognition because call ended");
+      recognitionRef.current.stop();
+      recognitionRef.current = null; // Clean up ref
+    }
+  }, [callActive]);
 
   useEffect(() => {
-    if (callState) {
-      setIsTalking(true);
+    if (!response || !callActive) return;
+
+    setLoading(false);
+
+    const corrected = response.correctedOrBetter;
+    const aiRes = response.aiResponse;
+
+    // Check if corrected text exists and isn't just an empty string
+    const fullResponse = (corrected && corrected.trim().length > 0) ? `${corrected}. ${aiRes}` : aiRes;
+
+    // Update state once
+    setMessages((prev) => [...prev, { role: "ai", text: fullResponse }]);
+
+    speakText(fullResponse, () => {
+      if (!callActive) return;
+        startConversation();
+      
+    });
+  }, [response]);
+
+  useEffect(() => {
+    if (callActive) {
       startConversation();
-    } else {
-      setIsTalking(false);
-    }
-  }, [callState]);
+    } 
+  }, [callActive]);
 
   return {
     input,
     loading,
-    isTalking,
+    callActive
   };
 }

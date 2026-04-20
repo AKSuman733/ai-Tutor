@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function SignIn({ onNavigateSignUp, onNavigateDashboard }) {
+export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -419,7 +420,7 @@ export default function SignIn({ onNavigateSignUp, onNavigateDashboard }) {
             </div>
           </div>
 
-          <div className="si-left-footer">© 2025 Speakly. All rights reserved.</div>
+          <div className="si-left-footer">© 2026 Speakly. All rights reserved.</div>
         </div>
 
         {/* Right form panel */}
@@ -428,7 +429,7 @@ export default function SignIn({ onNavigateSignUp, onNavigateDashboard }) {
             <div className="si-form-title">Welcome back</div>
             <p className="si-form-sub">
               Don't have an account?{" "}
-              <a onClick={onNavigateSignUp}>Sign up for free</a>
+              <a onClick={()=>navigate("/signup")}>Sign up for free</a>
             </p>
 
             {/* Social login */}
