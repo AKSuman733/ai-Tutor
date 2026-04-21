@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from './AuthContext';
+import dotenv from "dotenv";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export default function SignIn() {
     }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1200));
-    const res = await axios.post("http://localhost:5000/api/auth/signin", {
+    const res = await axios.post(`${process.env.VITE_BACKEND_URI}/api/auth/signin`, {
        email,
        password,
     });

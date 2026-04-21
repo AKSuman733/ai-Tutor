@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from './AuthContext';
+import dotenv from "dotenv";
 
 export default function SignUp() {
   const [step, setStep] = useState(1);
@@ -77,7 +78,7 @@ export default function SignUp() {
     }
     setError("");
     setLoading(true);
-    const res = await axios.post("http://localhost:5000/api/auth/signup", {
+    const res = await axios.post(`${process.env.VITE_BACKEND_URI}`, {
       email,
       name,
       password
