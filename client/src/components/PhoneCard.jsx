@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import useHandleCalling from "../callLogic/handlecall";
+import { useNavigate } from "react-router-dom";
 
 export default function PhoneCard({
   aiName = "Aria",
@@ -17,6 +18,7 @@ export default function PhoneCard({
   const [callDuration, setCallDuration] = useState(0);
   const timerRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const navigate = useNavigate();
 
   useHandleCalling(callActive, setCallActive, setMessages);
 
@@ -43,6 +45,10 @@ export default function PhoneCard({
   };
 
   const handleStart = () => {
+    const state = localStorage.getItem("isLoggedIn");
+    if (!state) {
+    return navigate("/signin");
+  }
     setCallActive(true);
 
   };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from './AuthContext';
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +27,10 @@ export default function SignIn() {
     });
     setLoading(false);
     localStorage.setItem("token", res.data.token);
+    const success = true; 
+    if (success) {
+      login(); // This updates the Header state instantly!
+    }
     navigate("/dashboard");
   };
 

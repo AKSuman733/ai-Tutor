@@ -23,8 +23,8 @@ app.get("/", (req, res) => {
 
 const server = http.createServer(app);
 
-setupWebSocket(server);
-
-server.listen(5000, () => {
+const PORT = process.env.PORT;
+server.listen(PORT, () => {
+  setupWebSocket(server);
   console.log("Server running on http://localhost:5000");
 });

@@ -356,12 +356,16 @@ export default function Body() {
           </div>
           <div className="sp-hero-trust">
             <span className="sp-stars">★★★★★</span>
-            <span>4.9 / 5 from 200+ early users</span>
+            <span>4.3 / 5 from 200+ early users</span>
             <span className="sp-trust-sep">·</span>
           </div>
-          <div className="sp-hero-phone">
+          
+        
+            <div className="sp-hero-phone">
             <PhoneCard />
           </div>
+          
+          
         </section>
         
         {/* ── How it works ── */}
@@ -476,10 +480,10 @@ export default function Body() {
             Free forever. No credit card needed.
           </p>
           <div className="sp-cta-row">
-            <input className="sp-cta-input" type="email" placeholder="Enter your email" />
-            <button className="sp-cta-btn">Get early access</button>
+            <input className="sp-cta-input" type="email" placeholder="your feedback" />
+            <button className="sp-cta-btn">Submit Feedback</button>
           </div>
-          <div className="sp-cta-note">We respect your privacy. No spam, ever.</div>
+          <div className="sp-cta-note">Your feedback gives us a chance to improve. Hope you visit us Soon.. </div>
         </section>
 
       </div>

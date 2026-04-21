@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from './AuthContext';
 
 export default function SignUp() {
   const [step, setStep] = useState(1);
@@ -11,6 +12,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const {login} = useAuth();
 
   const goals = [
     { id: "work", label: "Work & career", icon: (
@@ -82,6 +84,10 @@ export default function SignUp() {
     });
     setLoading(false);
     localStorage.setItem("token", res.data.token);
+    const success = true; 
+    if (success) {
+      login(); // This updates the Header state instantly!
+    }
     navigate("/dashboard");
   };
 

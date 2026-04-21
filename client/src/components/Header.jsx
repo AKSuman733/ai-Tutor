@@ -1,16 +1,26 @@
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
+import { useAuth } from './AuthContext';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { isLoggedIn , login, logout} = useAuth();
 
   const navLinks = ["Features", "How it works", "Pricing", "Blog"];
 
-  const handleLogOut= ()=>{
-    localStorage.removeItem('token')
+  const handleAuthAction = () => {
+  if (isLoggedIn) {
+    // Perform logout logic here
+    localStorage.removeItem('token');
+    console.log("Logging out...");
+    logout();
+  } else {
+    // Perform login logic here
     navigate("/signin");
+    console.log("Logging in...");
   }
+};
 
   return (
     <>
@@ -141,8 +151,11 @@ export default function Header() {
         </nav>
 
         <div className="sp-header-right">
-          <button className="sp-btn-ghost" onClick={handleLogOut}>Log out</button>
-          <button className="sp-btn-primary">Your Free Trial Started</button>
+          {/* //<button className="sp-btn-ghost" onClick={handleLogOut}>Log out</button> */}
+          <button className="sp-btn-primary" onClick={handleAuthAction}>
+              {isLoggedIn ? 'Log out' : 'Sign In'}
+          </button>
+          {/* <button className="sp-btn-primary">Your Free Trial Started</button> */}
           <button
             className="sp-mobile-toggle"
             onClick={() => setMenuOpen((v) => !v)}
