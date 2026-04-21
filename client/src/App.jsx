@@ -3,6 +3,7 @@ import SignIn from "../src/components/SignIn";
 import SignUp from "../src/components/SignUp";
 import Dashboard from "../src/components/Dashboard";
 import { AuthProvider } from '../src/components/AuthContext';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
       <Route path="/dashboard" element={<Dashboard />}/>
     </Routes>
+    <SpeedInsights />
     </AuthProvider>
     
   );
