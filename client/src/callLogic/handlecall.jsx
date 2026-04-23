@@ -46,7 +46,7 @@ export default function useHandleCalling(callActive, setCallActive, setMessages)
     // Update state once
     setMessages((prev) => [...prev, { role: "ai", text: chatResponse }]);
 
-    speakText(`${mistake} ${chatResponse}`, () => {
+    speakText(`${mistake} ${aiRes}`, () => {
       if (!callActive) return;
         startConversation();
       
