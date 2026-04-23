@@ -28,7 +28,7 @@ export const startListening = (onResult, onTimeout) => {
 
   recognition.onend = () => {
     clearTimeout(silenceTimer); // Ensure the timer dies when the mic closes
-    console.log("🎤 user sentence saved");
+    console.log("🎤❌ mic closed");
   };
 
   return recognition;

@@ -22,18 +22,30 @@ export default function SignIn() {
       return;
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    const res = await axios.post(`${path}/api/auth/signin`, {
-       email,
-       password,
-    });
-    setLoading(false);
+
+    try {
+        setError(""); // Clear previous errors
+         res = await axios.post(`${path}/api/auth/signin`, {
+            email,
+            password,
+        });
+        
     localStorage.setItem("token", res.data.token);
     const success = true; 
     if (success) {
       login(); // This updates the Header state instantly!
     }
     navigate("/dashboard");
+    } catch (error) {
+        if (error.response && error.response.data) {
+            setError(error.response.data.msg || "An error occurred");
+        } else {
+            setError("Connection failed. Please try again.");
+        }
+    }finally{
+      setLoading(false);
+    }
+    
   };
 
   return (

@@ -30,7 +30,7 @@ export const speakText = (text, onEnd) => {
   }
 
   // 🔥 make it sound more human
-  // speech.rate = 0.9;   // slower = natural
+   speech.rate = 0.9;   // slower = natural
   // speech.pitch = 1;    // keep normal
   // speech.volume = 1;
 

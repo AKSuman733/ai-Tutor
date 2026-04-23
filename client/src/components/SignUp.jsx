@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , Fragment} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from './AuthContext';
@@ -79,18 +79,28 @@ export default function SignUp() {
     }
     setError("");
     setLoading(true);
+    
+    try {
+    setLoading(true); // Assuming you have a loading state
     const res = await axios.post(`${path}/api/auth/signup`, {
-      email,
-      name,
-      password
+        email,
+        name,
+        password
     });
-    setLoading(false);
     localStorage.setItem("token", res.data.token);
-    const success = true; 
-    if (success) {
-      login(); // This updates the Header state instantly!
-    }
+    login(); // Updates your Auth context/Header
     navigate("/dashboard");
+    
+} catch (error) {
+    if (error.response && error.response.data) {
+        setError(error.response.data.msg || "An error occurred");
+    } else {
+        setError("Connection failed. Please try again.");
+    }
+} finally {
+    // This runs whether the request succeeded OR failed
+    setLoading(false);
+}
   };
 
   const strength = (() => {
@@ -541,7 +551,7 @@ export default function SignUp() {
           <div className="su-form-box">
 
             {/* Progress indicator */}
-            <div className="su-progress">
+            {/* <div className="su-progress">
               {["Account", "Password", "Goal"].map((label, i) => {
                 const n = i + 1;
                 const isDone = step > n;
@@ -564,6 +574,33 @@ export default function SignUp() {
                   </>
                 );
               })}
+            </div> */}
+            <div className="su-progress">
+  {["Account", "Password", "Goal"].map((label, i) => {
+    const n = i + 1;
+    const isDone = step > n;
+    const isActive = step === n;
+    
+    // 2. Attach the key to the Fragment itself
+    return (
+      <Fragment key={label}> 
+        <div className="su-progress-step">
+          <div className={`su-progress-circle ${isDone ? "done" : isActive ? "active" : "idle"}`}>
+            {isDone ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : n}
+          </div>
+          <span className={`su-progress-label ${isActive ? "active" : ""}`}>{label}</span>
+        </div>
+        
+        {i < 2 && (
+          <div className={`su-progress-line ${step > n ? "done" : ""}`} />
+        )}
+      </Fragment>
+    );
+  })}
             </div>
 
             {/* ── Step 1: Account details ── */}

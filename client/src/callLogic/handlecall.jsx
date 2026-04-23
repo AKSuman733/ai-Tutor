@@ -36,17 +36,17 @@ export default function useHandleCalling(callActive, setCallActive, setMessages)
     if (!response || !callActive) return;
 
     setLoading(false);
-
+    const mistake = response.mistakeExplanation;
     const corrected = response.correctedOrBetter;
     const aiRes = response.aiResponse;
 
     // Check if corrected text exists and isn't just an empty string
-    const fullResponse = (corrected && corrected.trim().length > 0) ? `${corrected}. ${aiRes}` : aiRes;
+    const chatResponse = (corrected && corrected.trim().length > 0) ? `You should say : ${corrected}. ${aiRes}` : aiRes;
 
     // Update state once
-    setMessages((prev) => [...prev, { role: "ai", text: fullResponse }]);
+    setMessages((prev) => [...prev, { role: "ai", text: chatResponse }]);
 
-    speakText(fullResponse, () => {
+    speakText(`${mistake} ${chatResponse}`, () => {
       if (!callActive) return;
         startConversation();
       
