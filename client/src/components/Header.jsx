@@ -42,7 +42,7 @@ export default function Header() {
           display: flex;
           align-items: center;
           gap: 8px;
-          font-size: 18px;
+          font-size: 30px;
           font-weight: 800;
           color: #0F0A2E;
           letter-spacing: -0.5px;
@@ -50,8 +50,8 @@ export default function Header() {
           cursor: pointer;
         }
         .sp-logo-dot {
-          width: 10px;
-          height: 10px;
+          width: 15px;
+          height: 15px;
           border-radius: 50%;
           background: #534AB7;
         }
@@ -151,11 +151,11 @@ export default function Header() {
         </nav>
 
         <div className="sp-header-right">
-          {/* //<button className="sp-btn-ghost" onClick={handleLogOut}>Log out</button> */}
+          
           <button className="sp-btn-primary" onClick={handleAuthAction}>
               {isLoggedIn ? 'Log out' : 'Sign In'}
           </button>
-          {/* <button className="sp-btn-primary">Your Free Trial Started</button> */}
+          
           <button
             className="sp-mobile-toggle"
             onClick={() => setMenuOpen((v) => !v)}

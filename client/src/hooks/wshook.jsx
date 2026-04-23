@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import dotenv from "dotenv";
 
 export const useWebSocket = () => {
   const [ws, setWs] = useState(null);
   const [response, setResponse] = useState(null);
 
   useEffect(() => {
-    const socket = new WebSocket(process.env.VITE_WS_URI);
+    const socket = new WebSocket(import.meta.env.VITE_WS_URI);
 
     socket.onopen = () => {
       console.log("Connected to WebSocket");
